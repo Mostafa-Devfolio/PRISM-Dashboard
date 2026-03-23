@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import ClientLayout from "./ClientLayout";
 
-export const baseUrl = `***REMOVED***`;
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default async function layout({
   children,

@@ -123,10 +123,10 @@ export default function Business() {
       <h1 className="font-bold text-2xl">Business</h1>
           {isLoading ? <div className="">
               <SpinnerEmpty />
-      </div> : <div className="">
+      </div> : <div className="w-full">
         <form className="w-full max-w-sm my-10">
           <FieldGroup>
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-20">
               <Field>
                 <FieldLabel htmlFor="form-businessname">
                   Business Name

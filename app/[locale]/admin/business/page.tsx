@@ -56,7 +56,7 @@ export default function Business() {
         {saveBusiness.map((business: IBusiness) => {
           return (
             <div
-              className="border p-2 rounded-md text-center relative"
+              className="border p-2 rounded-md text-center relative bg-white"
               key={business.id}
             >
               {business?.icon?.url && (

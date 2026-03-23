@@ -2,7 +2,7 @@ import { IBody } from "@/app/[locale]/admin/business/[id]/page";
 import { IUserBody } from "@/app/[locale]/admin/users/add/page";
 
 class Api {
-  baseUrl = `***REMOVED***/api/`;
+  baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   async login(myData: any) {
     const response = await fetch(`${this.baseUrl}auth/login`, {
@@ -187,6 +187,18 @@ class Api {
     const data = await response.json();
     console.log(data);
     return data;
+  }
+
+  async getVendor(vendorId: string, token: string) {
+    const response = await fetch(`${this.baseUrl}vendors/${vendorId}?populate=*`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        ...(token ? {Authorization: `Bearer ${token}`} : {})
+      }
+    });
+    const data = await response.json();
+    return data.data;
   }
 }
 

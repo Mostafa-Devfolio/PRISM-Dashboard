@@ -16,8 +16,10 @@ export default function ClientLayout() {
                 setIsSelected(0);
             } else if (pathNames === '/admin/business') {
                 setIsSelected(1);
-            } else if (pathNames === '/admin/users') {
+            } else if (pathNames === '/admin/vendors') {
                 setIsSelected(2);
+            } else if (pathNames === '/admin/users') {
+                setIsSelected(3);
             }
         }
         isReady();
@@ -38,6 +40,12 @@ export default function ClientLayout() {
       <hr className="w-full" />
       <h3
         className={`hover:scale-y-110 cursor-pointer w-fit ${isSelected == 2 ? "font-bold" : ""}`}
+      >
+        <Link href={"/admin/vendors"}>Vendors</Link>
+      </h3>
+      <hr className="w-full" />
+      <h3
+        className={`hover:scale-y-110 cursor-pointer w-fit ${isSelected == 3 ? "font-bold" : ""}`}
       >
         <Link href={"/admin/users"}>Users</Link>
       </h3>
