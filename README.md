@@ -27,6 +27,10 @@
 * **You can find dashboard here Live:** [https://dashboard.devfolio.net](https://dashboard.devfolio.net)
 * **Also you can find PRISM Frontend Live:** [https://prism.devfolio.net](https://prism.devfolio.net)
 
+### 🔐 Demo Credentials
+* **Email:** `admin@devfolio.net`
+* **Password:** `Admin2026@`
+
 ## 📖 About The Project
 
 The **Prism Admin Dashboard** is the centralized command center for the Prism Multi-Vendor E-Commerce & Service Ecosystem. It provides powerful tools for platform administrators to monitor, manage, and scale the entire ecosystem. 

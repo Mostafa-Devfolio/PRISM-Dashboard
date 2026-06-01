@@ -22,7 +22,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState('');
 
-  const { register, handleSubmit, formState: { errors } } = useForm<any>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<any>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -91,6 +91,21 @@ export default function LoginPage() {
             >
               {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign In'}
             </button>
+            
+            <div className="mt-6 pt-6 border-t border-border/50 text-center">
+              <p className="text-sm font-medium text-muted-foreground mb-3">Testing the dashboard?</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setValue('identifier', 'admin@devfolio.net');
+                  setValue('password', 'Admin2026@');
+                }}
+                className="w-full text-sm bg-muted/50 hover:bg-muted text-foreground px-4 py-2.5 rounded-lg border border-border/50 transition-colors flex flex-col items-center gap-1"
+              >
+                <span>Auto-fill Demo Credentials</span>
+                <span className="text-xs opacity-70">admin@devfolio.net / Admin2026@</span>
+              </button>
+            </div>
           </form>
         </div>
       </div>
