@@ -22,7 +22,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState('');
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
+  const { register, handleSubmit, formState: { errors } } = useForm<any>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -67,7 +67,7 @@ export default function LoginPage() {
                 placeholder="admin@pyramids.com"
               />
               {errors.identifier && (
-                <p className="mt-1 text-sm text-red-500">{errors.identifier.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.identifier.message as string}</p>
               )}
             </div>
 
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
               />
               {errors.password && (
-                <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.password.message as string}</p>
               )}
             </div>
 

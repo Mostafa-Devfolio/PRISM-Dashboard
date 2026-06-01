@@ -43,7 +43,7 @@ export function BusinessTypeModal({ businessType, onClose }: { businessType?: an
   const allowLayoutChange = !isEditing;
   const allowedLayouts = ['food', 'market', 'commerce'];
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors } } = useForm<any>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: businessType?.name || '',
@@ -151,7 +151,7 @@ export function BusinessTypeModal({ businessType, onClose }: { businessType?: an
                     className="w-full px-3 py-2 bg-background border border-border rounded-lg" 
                     placeholder="e.g. Restaurants"
                   />
-                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message as string}</p>}
                 </div>
 
                 <div>
@@ -161,7 +161,7 @@ export function BusinessTypeModal({ businessType, onClose }: { businessType?: an
                     className="w-full px-3 py-2 bg-background border border-border rounded-lg" 
                     placeholder="e.g. restaurants"
                   />
-                  {errors.slug && <p className="text-red-500 text-xs mt-1">{errors.slug.message}</p>}
+                  {errors.slug && <p className="text-red-500 text-xs mt-1">{errors.slug.message as string}</p>}
                 </div>
 
                 <div className="col-span-2">

@@ -27,7 +27,7 @@ export function BusTripModal({ isOpen, onClose, trip }: BusTripModalProps) {
   const [createTrip, { isLoading: isCreating }] = useCreateBusTripMutation();
   const [updateTrip, { isLoading: isUpdating }] = useUpdateBusTripMutation();
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<BusTripFormData>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<any>({
     resolver: zodResolver(busTripSchema),
     defaultValues: {
       route: '', departureTime: '', busNumber: '', totalSeats: 50, availableSeats: 50, status: 'Scheduled'
@@ -85,19 +85,19 @@ export function BusTripModal({ isOpen, onClose, trip }: BusTripModalProps) {
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">Route (e.g. Cairo - Alex)</label>
             <input {...register('route')} type="text" className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground" />
-            {errors.route && <p className="text-red-500 text-xs mt-1">{errors.route.message}</p>}
+            {errors.route && <p className="text-red-500 text-xs mt-1">{errors.route.message as string}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-foreground mb-1">Bus Number</label>
               <input {...register('busNumber')} type="text" className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground" />
-              {errors.busNumber && <p className="text-red-500 text-xs mt-1">{errors.busNumber.message}</p>}
+              {errors.busNumber && <p className="text-red-500 text-xs mt-1">{errors.busNumber.message as string}</p>}
             </div>
             <div>
               <label className="block text-sm font-medium text-foreground mb-1">Departure Time</label>
               <input {...register('departureTime')} type="datetime-local" className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground" />
-              {errors.departureTime && <p className="text-red-500 text-xs mt-1">{errors.departureTime.message}</p>}
+              {errors.departureTime && <p className="text-red-500 text-xs mt-1">{errors.departureTime.message as string}</p>}
             </div>
           </div>
 

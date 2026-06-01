@@ -40,7 +40,7 @@ export function SalesChart({ data }: SalesChartProps) {
               <Tooltip 
                 contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }}
                 itemStyle={{ color: '#fff' }}
-                formatter={(value: number) => [`$${value.toFixed(2)}`, 'Revenue']}
+                formatter={(value: any) => [`$${Number(value).toFixed(2)}`, 'Revenue']}
               />
               <Area
                 type="monotone"

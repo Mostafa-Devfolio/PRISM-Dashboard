@@ -29,7 +29,7 @@ export function UserModal({ isOpen, onClose, user }: UserModalProps) {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<UserFormData>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<any>({
     resolver: zodResolver(userSchema),
     defaultValues: {
       username: '', email: '', password: '', confirmed: true, blocked: false,
@@ -131,7 +131,7 @@ export function UserModal({ isOpen, onClose, user }: UserModalProps) {
               className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
               placeholder="johndoe"
             />
-            {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
+            {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message as string}</p>}
           </div>
 
           <div>
@@ -142,7 +142,7 @@ export function UserModal({ isOpen, onClose, user }: UserModalProps) {
               className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
               placeholder="john@example.com"
             />
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message as string}</p>}
           </div>
 
           <div>
@@ -155,7 +155,7 @@ export function UserModal({ isOpen, onClose, user }: UserModalProps) {
               className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
               placeholder="••••••••"
             />
-            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message as string}</p>}
           </div>
 
           <div className="flex gap-4 pt-2">

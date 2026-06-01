@@ -33,7 +33,7 @@ export function RevenuePieChart({ data }: RevenuePieChartProps) {
                 ))}
               </Pie>
               <Tooltip 
-                formatter={(value: number) => `$${value.toFixed(2)}`}
+                formatter={(value: any) => `$${Number(value).toFixed(2)}`}
                 contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }}
                 itemStyle={{ color: '#fff' }}
               />

@@ -26,7 +26,7 @@ export function OrderModal({ isOpen, onClose, order }: OrderModalProps) {
   const [updateOrder, { isLoading: isUpdatingOrder }] = useUpdateOrderMutation();
   const [updateSubOrder, { isLoading: isUpdatingSubOrder }] = useUpdateSubOrderMutation();
 
-  const { register, handleSubmit, reset } = useForm<OrderFormData>({
+  const { register, handleSubmit, reset } = useForm<any>({
     resolver: zodResolver(orderSchema),
     defaultValues: {
       fulfillmentStatus: 'pending',
