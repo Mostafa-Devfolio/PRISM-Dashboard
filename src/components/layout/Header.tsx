@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { Bell, Search, UserCircle, LogOut, Settings, ChevronDown, Package } from 'lucide-react';
+import { Menu, Bell, Search, UserCircle, LogOut, Settings, ChevronDown, Package } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/store/slices/authSlice';
@@ -20,7 +20,7 @@ function formatRelativeTime(dateString: string) {
   return `${days}d ago`;
 }
 
-export function Header() {
+export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [accountModalOpen, setAccountModalOpen] = useState(false);
@@ -58,9 +58,15 @@ export function Header() {
   }, []);
 
   return (
-    <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6 sticky top-0 z-10 shadow-sm">
-      <div className="flex-1 flex items-center">
-        <div className="relative w-64">
+    <header className="h-16 bg-card border-b border-border flex items-center justify-between px-4 lg:px-6 sticky top-0 z-10 shadow-sm shrink-0">
+      <div className="flex-1 flex items-center gap-2 lg:gap-4">
+        <button 
+          onClick={onMenuClick}
+          className="p-2 -ml-2 rounded-lg lg:hidden text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <div className="relative w-full max-w-xs hidden sm:block">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">
             <Search className="h-4 w-4 text-muted-foreground" />
           </span>
