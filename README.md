@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">
+  <br>
+  <a href="https://dashboard.devfolio.net/"><img src="https://prism.devfolio.net/uploads/prism.png" alt="Prism Dashboard" width="200"></a>
+  <br>
+  Prism | Centralized Admin Dashboard
+  <br>
+</h1>
 
-## Getting Started
+<h4 align="center">This is the (ADMIN DASHBOARD OF PRISM)</h4>
 
-First, run the development server:
+<h4 align="center">This project is totally developed by Mostafa Sherif Hussien, without copying it, using AI instead of my experience</h4>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<p align="center">
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-core-features--functionality">Key Features</a> •
+  <a href="#-getting-started">Getting Started</a> •
+  <a href="https://dashboard.devfolio.net/">Live Demo</a>
+</p>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔗 Live Links
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **You can find dashboard here Live:** [https://dashboard.devfolio.net](https://dashboard.devfolio.net)
+* **Also you can find PRISM Frontend Live:** [https://prism.devfolio.net](https://prism.devfolio.net)
 
-## Learn More
+## 📖 About The Project
 
-To learn more about Next.js, take a look at the following resources:
+The **Prism Admin Dashboard** is the centralized command center for the Prism Multi-Vendor E-Commerce & Service Ecosystem. It provides powerful tools for platform administrators to monitor, manage, and scale the entire ecosystem. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is developed using Nextjs with Typescript.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Tech Stack
 
-## Deploy on Vercel
+* **Frontend:** Next.js (React), TypeScript, Tailwind CSS
+* **State Management:** Redux Toolkit (RTK Query), Context API, React Hooks
+* **Authentication:** Next.js Middleware & JWT
+* **UI Components:** Radix UI, Lucide React, Framer Motion
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ✨ Core Features & Functionality
+
+### 🛍️ Unified Management
+* **Catalog & Vendors:** Full administrative control over multi-vendor product catalogs and business storefront profiles.
+* **Property Listings:** Approve, manage, and configure accommodation and rental spaces across the ecosystem.
+* **Order & Bookings:** Centralized oversight of retail orders, sub-orders, and property reservations.
+
+### 📦 Logistics Command Center
+* **Real-Time Fleet Tracking:** Monitor passenger rides and courier parcel deliveries dynamically.
+* **Bus Trip Scheduling:** Comprehensive tools to create and manage inter-city bus trips and track seat availability.
+
+### ⚙️ Platform Configuration
+* **Global Settings:** Dynamically toggle platform capabilities like maps, loyalty programs, and supported currencies.
+* **User & Role Management:** Secure oversight of customer, vendor, and administrator accounts.
+* **Data Visualization:** High-performance analytical charts and metric cards providing a real-time pulse on ecosystem revenue and engagement.
+
+---
+
+## 🛠️ Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+* Node.js (v18.17 or higher recommended)
+* npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+   ```sh
+   git clone https://github.com/Mostafa-Devfolio/PRISM-Dashboard.git
+   ```
+
+2. **Navigate to the project directory**
+   ```sh
+   cd PRISM-Dashboard
+   ```
+
+3. **Install NPM packages**
+   ```sh
+   npm install
+   ```
+
+4. **Configure Environment Variables**
+   Create a `.env.local` file in the root directory and add your configurations:
+   ```env
+   NEXT_PUBLIC_API_URL=your_strapi_backend_url
+   ```
+
+5. **Run the development server**
+   ```sh
+   npm run dev
+   ```
+
+6. **Open your browser**
+   Navigate to `http://localhost:3000` to see the application running.
+
+## 📄 License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+Developed with dedication by Mostafa Sherif Hussien.
