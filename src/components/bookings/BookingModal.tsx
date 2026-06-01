@@ -33,7 +33,7 @@ export function BookingModal({ isOpen, onClose, booking }: BookingModalProps) {
   const { data: userData, isLoading: isLoadingUsers } = useGetUsersQuery({});
   const { data: propertyData, isLoading: isLoadingProperties } = useGetPropertiesQuery({});
   
-  const { register, control, handleSubmit, reset } = useForm({
+  const { register, control, handleSubmit, reset } = useForm<any>({
     defaultValues: {
       bookedRooms: [],
       selectedAddons: [],
