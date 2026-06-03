@@ -1,13 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
-import { Building2, Eye, MapPin, CheckCircle2, XCircle, Loader2, AlertCircle } from 'lucide-react';
-import { useGetPropertiesQuery } from '@/store/api';
+import { Building2, Eye, MapPin, CheckCircle2, XCircle, Loader2, AlertCircle, Plus, Trash2 } from 'lucide-react';
+import { useGetPropertiesQuery, useDeletePropertyMutation } from '@/store/api';
 import { PropertyModal } from '@/components/properties/PropertyModal';
 import { cn } from '@/lib/utils';
 
 export default function PropertiesPage() {
   const { data: response, isLoading, error } = useGetPropertiesQuery({});
+  const [deleteProperty] = useDeletePropertyMutation();
   
   const [tab, setTab] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +27,21 @@ export default function PropertiesPage() {
   const handleEdit = (property: any) => {
     setSelectedProperty(property);
     setIsModalOpen(true);
+  };
+
+  const handleCreate = () => {
+    setSelectedProperty(null);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
+      try {
+        await deleteProperty(id).unwrap();
+      } catch (err: any) {
+        alert(err.message || 'Failed to delete property.');
+      }
+    }
   };
 
   const columns = [
@@ -69,9 +85,14 @@ export default function PropertiesPage() {
       );
     }},
     { key: 'actions', header: 'Actions', render: (p: any) => (
-      <button onClick={() => handleEdit(p)} title="Manage Property" className="p-1.5 text-muted-foreground hover:text-primary transition-colors bg-muted rounded-md hover:bg-primary/10">
-        <Eye className="w-4 h-4" />
-      </button>
+      <div className="flex items-center gap-2">
+        <button onClick={() => handleEdit(p)} title="Manage Property" className="p-1.5 text-muted-foreground hover:text-primary transition-colors bg-muted rounded-md hover:bg-primary/10">
+          <Eye className="w-4 h-4" />
+        </button>
+        <button onClick={() => handleDelete(p.documentId || p.id)} title="Delete Property" className="p-1.5 text-red-500 hover:text-red-600 transition-colors bg-red-500/10 rounded-md hover:bg-red-500/20">
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
     )}
   ];
 
@@ -85,6 +106,12 @@ export default function PropertiesPage() {
           </h1>
           <p className="text-muted-foreground">Manage hotels, apartments, edit details, and securely transfer ownership.</p>
         </div>
+        <button 
+          onClick={handleCreate}
+          className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm flex items-center gap-2"
+        >
+          <Plus className="w-4 h-4" /> Add Property
+        </button>
       </div>
 
       <div className="flex items-center gap-2 border-b border-border pb-px overflow-x-auto">

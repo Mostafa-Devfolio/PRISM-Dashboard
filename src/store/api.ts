@@ -15,7 +15,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['User', 'Product', 'Order', 'Ride', 'Parcel', 'BusTrip', 'Booking', 'LocalService', 'ClassifiedAd', 'ChatMessage', 'Vendor', 'BusinessType', 'Property', 'Category', 'AuthSetting', 'LoyaltySetting', 'Currency'],
+  tagTypes: ['User', 'Product', 'Order', 'Ride', 'Parcel', 'BusTrip', 'Booking', 'LocalService', 'ClassifiedAd', 'ChatMessage', 'Vendor', 'BusinessType', 'Property', 'Category', 'AuthSetting', 'LoyaltySetting', 'Currency', 'Room', 'VehicleType', 'ParcelType'],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -182,6 +182,14 @@ export const api = createApi({
     getProperties: builder.query({
       query: () => '/properties?publicationState=preview&populate=*',
       providesTags: ['Property'],
+    }),
+    createProperty: builder.mutation({
+      query: (data) => ({
+        url: '/properties',
+        method: 'POST',
+        body: { data },
+      }),
+      invalidatesTags: ['Property'],
     }),
     updateProperty: builder.mutation({
       query: ({ documentId, ...patch }) => ({
@@ -446,6 +454,93 @@ export const api = createApi({
       }),
       invalidatesTags: ['Currency'],
     }),
+    getRooms: builder.query({
+      query: (params) => {
+        let url = '/rooms?populate=*';
+        if (params?.propertyId) {
+          url += `&filters[property][id][$eq]=${params.propertyId}`;
+        }
+        return url;
+      },
+      providesTags: ['Room'],
+    }),
+    createRoom: builder.mutation({
+      query: (data) => ({
+        url: '/rooms',
+        method: 'POST',
+        body: { data },
+      }),
+      invalidatesTags: ['Room'],
+    }),
+    updateRoom: builder.mutation({
+      query: ({ documentId, ...patch }) => ({
+        url: `/rooms/${documentId}`,
+        method: 'PUT',
+        body: { data: patch },
+      }),
+      invalidatesTags: ['Room'],
+    }),
+    deleteRoom: builder.mutation({
+      query: (documentId) => ({
+        url: `/rooms/${documentId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Room'],
+    }),
+    getVehicleTypes: builder.query({
+      query: () => '/vehicle-types?populate=*',
+      providesTags: ['VehicleType'],
+    }),
+    createVehicleType: builder.mutation({
+      query: (data) => ({
+        url: '/vehicle-types',
+        method: 'POST',
+        body: { data },
+      }),
+      invalidatesTags: ['VehicleType'],
+    }),
+    updateVehicleType: builder.mutation({
+      query: ({ documentId, ...patch }) => ({
+        url: `/vehicle-types/${documentId}`,
+        method: 'PUT',
+        body: { data: patch },
+      }),
+      invalidatesTags: ['VehicleType'],
+    }),
+    deleteVehicleType: builder.mutation({
+      query: (documentId) => ({
+        url: `/vehicle-types/${documentId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['VehicleType'],
+    }),
+    getParcelTypes: builder.query({
+      query: () => '/parcel-types?populate=*',
+      providesTags: ['ParcelType'],
+    }),
+    createParcelType: builder.mutation({
+      query: (data) => ({
+        url: '/parcel-types',
+        method: 'POST',
+        body: { data },
+      }),
+      invalidatesTags: ['ParcelType'],
+    }),
+    updateParcelType: builder.mutation({
+      query: ({ documentId, ...patch }) => ({
+        url: `/parcel-types/${documentId}`,
+        method: 'PUT',
+        body: { data: patch },
+      }),
+      invalidatesTags: ['ParcelType'],
+    }),
+    deleteParcelType: builder.mutation({
+      query: (documentId) => ({
+        url: `/parcel-types/${documentId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['ParcelType'],
+    }),
     uploadFile: builder.mutation({
       query: (formData) => ({
         url: '/upload',
@@ -480,6 +575,7 @@ export const {
   useUpdateBusinessTypeMutation,
   useDeleteBusinessTypeMutation,
   useGetPropertiesQuery,
+  useCreatePropertyMutation,
   useUpdatePropertyMutation,
   useDeletePropertyMutation,
   useGetCategoriesQuery,
@@ -516,5 +612,17 @@ export const {
   useCreateCurrencyMutation,
   useUpdateCurrencyMutation,
   useDeleteCurrencyMutation,
+  useGetRoomsQuery,
+  useCreateRoomMutation,
+  useUpdateRoomMutation,
+  useDeleteRoomMutation,
+  useGetVehicleTypesQuery,
+  useCreateVehicleTypeMutation,
+  useUpdateVehicleTypeMutation,
+  useDeleteVehicleTypeMutation,
+  useGetParcelTypesQuery,
+  useCreateParcelTypeMutation,
+  useUpdateParcelTypeMutation,
+  useDeleteParcelTypeMutation,
   useUploadFileMutation
 } = api;

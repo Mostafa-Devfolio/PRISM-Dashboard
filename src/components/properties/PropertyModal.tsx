@@ -1,9 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { X, Loader2, Building, UserCheck, ShieldAlert, MapPin, Settings2, Code, FileText } from 'lucide-react';
-import { useUpdatePropertyMutation, useGetUsersQuery } from '@/store/api';
+import { X, Loader2, Building, UserCheck, ShieldAlert, MapPin, Settings2, Code, FileText, Layers, Plus, Edit2, Trash2 } from 'lucide-react';
+import { useUpdatePropertyMutation, useCreatePropertyMutation, useGetUsersQuery, useGetRoomsQuery, useDeleteRoomMutation } from '@/store/api';
 import { cn } from '@/lib/utils';
+import { RoomModal } from './RoomModal';
 
 interface PropertyModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ const TABS = [
   { id: 'basic', label: 'Basic Info', icon: FileText },
   { id: 'location', label: 'Location', icon: MapPin },
   { id: 'settings', label: 'Settings & Offers', icon: Settings2 },
+  { id: 'rooms', label: 'Rooms & Pricing', icon: Layers },
   { id: 'json', label: 'Advanced (JSON Data)', icon: Code },
   { id: 'ownership', label: 'Ownership & Visibility', icon: ShieldAlert },
 ];
@@ -22,7 +24,16 @@ const TABS = [
 export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps) {
   const [activeTab, setActiveTab] = useState('basic');
   const [updateProperty, { isLoading: isUpdating }] = useUpdatePropertyMutation();
+  const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation();
   const { data: usersData, isLoading: isLoadingUsers } = useGetUsersQuery({});
+  
+  const propertyId = property?.documentId || property?.id;
+  const { data: roomsRes, isLoading: isLoadingRooms } = useGetRoomsQuery({ propertyId }, { skip: !propertyId });
+  const [deleteRoom] = useDeleteRoomMutation();
+  const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState<any>(null);
+
+  const rooms = roomsRes?.data || [];
   
   const { register, handleSubmit, reset } = useForm();
 
@@ -62,10 +73,19 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
         ownerId: property.owner?.documentId || property.owner?.id?.toString() || '',
         visibility: property.publishedAt !== null ? 'published' : 'draft'
       });
+    } else {
+      reset({
+        name: '', propertyType: 'hotel', description: '', starRating: 1, isFeatured: false,
+        country: '', city: '', address: '', latitude: '', longitude: '',
+        paymentRequirement: 'pay_at_checkin', offersAirportShuttle: false, offersCarRental: false, offersAirportTaxi: false,
+        earlyBookerDiscountPercent: 0, geniusDiscountPercent: 0, importantInformation: '',
+        amenities: '', availableAddons: '', topFacilities: '', languagesSpoken: '', houseRules: '', facilitiesCategories: '', surroundings: '', sustainability: '', highlights: '', faqs: '',
+        ownerId: '', visibility: 'published'
+      });
     }
   }, [property, reset, isOpen]);
 
-  if (!isOpen || !property) return null;
+  if (!isOpen) return null;
 
   const usersArray = usersData?.data || [];
   const vendorUsers = usersArray.filter((u: any) => {
@@ -124,11 +144,15 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
         payload.owner = data.ownerId;
       }
 
-      await updateProperty({ documentId: property.documentId || property.id, ...payload }).unwrap();
+      if (propertyId) {
+        await updateProperty({ documentId: propertyId, ...payload }).unwrap();
+      } else {
+        await createProperty(payload).unwrap();
+      }
       onClose();
     } catch (error: any) {
-      console.error('Failed to update property:', error);
-      alert(error.message || 'Failed to update property.');
+      console.error('Failed to save property:', error);
+      alert(error.message || 'Failed to save property.');
     }
   };
 
@@ -140,9 +164,9 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
           <div>
             <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Building className="w-6 h-6 text-primary" />
-              Advanced Property Editor
+              {propertyId ? 'Advanced Property Editor' : 'Create New Property'}
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">Editing: <span className="font-semibold text-foreground">{property.name}</span></p>
+            <p className="text-sm text-muted-foreground mt-1">{propertyId ? `Editing: ` : 'Creating new listing on the platform'}<span className="font-semibold text-foreground">{property?.name}</span></p>
           </div>
           <button onClick={onClose} className="p-2 text-muted-foreground hover:bg-muted rounded-full transition-colors bg-background border border-border shadow-sm">
             <X className="w-5 h-5" />
@@ -277,6 +301,71 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
               </div>
             </div>
 
+            <div className={activeTab === 'rooms' ? 'block space-y-6' : 'hidden'}>
+              <div className="flex items-center justify-between border-b border-border pb-2 mb-4">
+                <h3 className="text-lg font-bold">Rooms & Pricing Configuration</h3>
+                <button 
+                  type="button"
+                  onClick={() => {
+                    if (!propertyId) {
+                      alert('Please save the property first before adding rooms.');
+                      return;
+                    }
+                    setSelectedRoom(null);
+                    setIsRoomModalOpen(true);
+                  }}
+                  className="flex items-center gap-2 text-sm bg-primary text-white px-3 py-1.5 rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  <Plus className="w-4 h-4" /> Add Room / Option
+                </button>
+              </div>
+
+              {!propertyId ? (
+                <div className="p-8 text-center bg-muted/20 border border-border rounded-xl">
+                  <Layers className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+                  <h4 className="font-medium text-foreground">Save Property First</h4>
+                  <p className="text-sm text-muted-foreground max-w-md mx-auto mt-2">You need to create and save the basic property details before you can attach rooms and pricing configurations to it.</p>
+                </div>
+              ) : isLoadingRooms ? (
+                <div className="p-8 text-center">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground">Loading rooms...</p>
+                </div>
+              ) : rooms.length === 0 ? (
+                <div className="p-8 text-center bg-muted/20 border border-border rounded-xl">
+                  <h4 className="font-medium text-foreground">No Rooms Found</h4>
+                  <p className="text-sm text-muted-foreground mt-2 mb-4">Add your first room, apartment variation, or pricing option.</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {rooms.map((room: any) => (
+                    <div key={room.id} className="flex items-center justify-between p-4 border border-border bg-card rounded-lg hover:border-primary/50 transition-colors">
+                      <div>
+                        <h4 className="font-bold text-foreground">{room.name || room.roomType}</h4>
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
+                          <span>Capacity: {room.capacity} adults</span>
+                          <span>Base Price: ${room.basePrice}/night</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button type="button" onClick={() => { setSelectedRoom(room); setIsRoomModalOpen(true); }} className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors">
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button type="button" onClick={async () => {
+                          if (confirm('Delete this room?')) {
+                            try { await deleteRoom(room.documentId || room.id).unwrap(); }
+                            catch (e: any) { alert('Failed to delete room'); }
+                          }
+                        }} className="p-2 text-red-500 hover:bg-red-500/10 rounded-md transition-colors">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className={activeTab === 'json' ? 'block space-y-6' : 'hidden'}>
               <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl mb-4">
                 <p className="text-sm text-blue-700 dark:text-blue-400 font-medium">
@@ -360,15 +449,24 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
           <button 
             type="submit" 
             form="property-form"
-            disabled={isUpdating}
+            disabled={isUpdating || isCreating}
             className="px-6 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary/90 shadow-sm rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2"
           >
-            {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
-            Save All Changes
+            {(isUpdating || isCreating) && <Loader2 className="w-4 h-4 animate-spin" />}
+            {propertyId ? 'Save All Changes' : 'Create Property'}
           </button>
         </div>
 
       </div>
+      
+      {isRoomModalOpen && (
+        <RoomModal 
+          isOpen={isRoomModalOpen} 
+          onClose={() => setIsRoomModalOpen(false)} 
+          room={selectedRoom} 
+          propertyId={propertyId} 
+        />
+      )}
     </div>
   );
 }
