@@ -17,9 +17,8 @@ export function ParcelTypeModal({ isOpen, onClose, parcelType }: ParcelTypeModal
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       name: '',
-      basePrice: 0,
-      maxWeight: 5,
-      pricePerAdditionalKg: 0,
+      baseFee: 0,
+      maxWeightKg: 5,
       isActive: true,
       description: ''
     }
@@ -29,18 +28,16 @@ export function ParcelTypeModal({ isOpen, onClose, parcelType }: ParcelTypeModal
     if (parcelType) {
       reset({
         name: parcelType.name || '',
-        basePrice: parcelType.basePrice || 0,
-        maxWeight: parcelType.maxWeight || 5,
-        pricePerAdditionalKg: parcelType.pricePerAdditionalKg || 0,
+        baseFee: parcelType.baseFee || 0,
+        maxWeightKg: parcelType.maxWeightKg || 5,
         isActive: parcelType.isActive !== false,
         description: parcelType.description || ''
       });
     } else {
       reset({
         name: '',
-        basePrice: 0,
-        maxWeight: 5,
-        pricePerAdditionalKg: 0,
+        baseFee: 0,
+        maxWeightKg: 5,
         isActive: true,
         description: ''
       });
@@ -53,9 +50,8 @@ export function ParcelTypeModal({ isOpen, onClose, parcelType }: ParcelTypeModal
     try {
       const payload = {
         name: data.name,
-        basePrice: parseFloat(data.basePrice),
-        maxWeight: parseFloat(data.maxWeight),
-        pricePerAdditionalKg: parseFloat(data.pricePerAdditionalKg),
+        baseFee: parseFloat(data.baseFee),
+        maxWeightKg: parseFloat(data.maxWeightKg),
         isActive: data.isActive,
         description: data.description,
       };
@@ -93,18 +89,14 @@ export function ParcelTypeModal({ isOpen, onClose, parcelType }: ParcelTypeModal
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold mb-1">Base Delivery Price ($)</label>
-              <input type="number" step="0.01" min="0" {...register('basePrice')} className="w-full px-3 py-2 bg-background border border-border rounded-lg" required />
+              <label className="block text-sm font-semibold mb-1">Base Delivery Fee ($)</label>
+              <input type="number" step="0.01" min="0" {...register('baseFee')} className="w-full px-3 py-2 bg-background border border-border rounded-lg" required />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-1">Included Weight (Kg)</label>
-              <input type="number" step="0.1" min="0" {...register('maxWeight')} className="w-full px-3 py-2 bg-background border border-border rounded-lg" required />
+              <label className="block text-sm font-semibold mb-1">Max Included Weight (Kg)</label>
+              <input type="number" step="0.1" min="0" {...register('maxWeightKg')} className="w-full px-3 py-2 bg-background border border-border rounded-lg" required />
             </div>
-            <div>
-              <label className="block text-sm font-semibold mb-1">Extra Price Per Kg ($)</label>
-              <input type="number" step="0.01" min="0" {...register('pricePerAdditionalKg')} className="w-full px-3 py-2 bg-background border border-border rounded-lg" required />
-            </div>
-            <div className="flex items-center mt-6">
+            <div className="flex items-center mt-6 col-span-2">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" {...register('isActive')} className="w-4 h-4 rounded text-primary focus:ring-primary" />
                 <span className="text-sm font-medium">Model Active</span>

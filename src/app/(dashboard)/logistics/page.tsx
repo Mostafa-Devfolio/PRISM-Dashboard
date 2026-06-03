@@ -170,9 +170,8 @@ export default function LogisticsPage() {
 
   const parcelTypeColumns = [
     { key: 'name', header: 'Parcel Type', render: (p: any) => <span className="font-bold text-foreground capitalize">{p.name}</span> },
-    { key: 'basePrice', header: 'Base Price', render: (p: any) => <span className="font-medium">${p.basePrice}</span> },
-    { key: 'maxWeight', header: 'Max Weight', render: (p: any) => <span className="text-muted-foreground">{p.maxWeight} kg</span> },
-    { key: 'perKg', header: 'Additional/Kg', render: (p: any) => <span className="text-muted-foreground">${p.pricePerAdditionalKg}/kg</span> },
+    { key: 'baseFee', header: 'Base Fee', render: (p: any) => <span className="font-medium">${p.baseFee}</span> },
+    { key: 'maxWeightKg', header: 'Max Weight', render: (p: any) => <span className="text-muted-foreground">{p.maxWeightKg} kg</span> },
     { key: 'status', header: 'Status', render: (p: any) => (
       <span className={`px-2 py-1 rounded-md text-xs font-medium ${p.isActive !== false ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
         {p.isActive !== false ? 'Active' : 'Disabled'}
