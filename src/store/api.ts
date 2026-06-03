@@ -1,20 +1,47 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { RootState } from './index';
+import toast from 'react-hot-toast';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://pyramid.devfolio.net/api/';
 
+const baseQuery = fetchBaseQuery({
+  baseUrl,
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.token;
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
+const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions
+) => {
+  const method = typeof args === 'string' ? 'GET' : args.method || 'GET';
+
+  if (method.toUpperCase() === 'DELETE') {
+    toast.error('You cannot delete the data from the demo Admin panel', {
+      duration: 4000,
+      position: 'top-center',
+    });
+    return {
+      error: {
+        status: 403,
+        data: { message: 'Action restricted in demo mode.' },
+      },
+    };
+  }
+
+  return baseQuery(args, api, extraOptions);
+};
+
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: customBaseQuery,
   tagTypes: ['User', 'Product', 'Order', 'Ride', 'Parcel', 'BusTrip', 'Booking', 'LocalService', 'ClassifiedAd', 'ChatMessage', 'Vendor', 'BusinessType', 'Property', 'Category', 'AuthSetting', 'LoyaltySetting', 'Currency', 'Room', 'VehicleType', 'ParcelType'],
   endpoints: (builder) => ({
     login: builder.mutation({
