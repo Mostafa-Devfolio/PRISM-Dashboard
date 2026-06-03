@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { Plus, Edit, Trash2, Loader2, AlertCircle } from 'lucide-react';
@@ -25,13 +27,13 @@ export default function BusinessTypesPage() {
   };
 
   const handleDelete = async (id: string | number) => {
-    if (confirm('Are you sure you want to delete this business type? This might affect vendors.')) {
+    if (await showConfirm('Are you sure you want to delete this business type? This might affect vendors.')) {
       try {
         await deleteBusinessType(id).unwrap();
-        alert('Deleted successfully');
+        showAlert('Deleted successfully');
       } catch (err) {
         console.error('Failed to delete:', err);
-        alert('Failed to delete business type.');
+        showAlert('Failed to delete business type.');
       }
     }
   };

@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -85,7 +87,7 @@ export function UserModal({ isOpen, onClose, user }: UserModalProps) {
       onClose();
     } catch (error) {
       console.error('Failed to save user:', error);
-      alert('Failed to save user. Check console for details.');
+      showAlert('Failed to save user. Check console for details.');
     }
   };
 

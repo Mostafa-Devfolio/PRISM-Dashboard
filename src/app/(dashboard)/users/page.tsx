@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { Plus, Edit2, Trash2, Loader2, AlertCircle } from 'lucide-react';
@@ -23,12 +25,12 @@ export default function UsersPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (confirm('Are you sure you want to delete this user?')) {
+    if (await showConfirm('Are you sure you want to delete this user?')) {
       try {
         await deleteUser(id).unwrap();
       } catch (err) {
         console.error('Failed to delete user:', err);
-        alert('Failed to delete user.');
+        showAlert('Failed to delete user.');
       }
     }
   };

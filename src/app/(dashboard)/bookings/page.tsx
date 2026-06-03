@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { Calendar, Users, CheckCircle2, Clock, XCircle, LogOut, LogIn, Loader2, AlertCircle, Plus, Edit2, Trash2 } from 'lucide-react';
@@ -31,11 +33,11 @@ export default function BookingsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this booking?')) {
+    if (await showConfirm('Are you sure you want to delete this booking?')) {
       try {
         await deleteBooking(id).unwrap();
       } catch (err) {
-        alert('Failed to delete booking');
+        showAlert('Failed to delete booking');
       }
     }
   };

@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { Plus, Edit2, Trash2, Users, Loader2, AlertCircle } from 'lucide-react';
@@ -27,12 +29,12 @@ export default function BusTripsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this bus trip?')) {
+    if (await showConfirm('Are you sure you want to delete this bus trip?')) {
       try {
         await deleteTrip(id).unwrap();
       } catch (err) {
         console.error('Failed to delete trip:', err);
-        alert('Failed to delete trip.');
+        showAlert('Failed to delete trip.');
       }
     }
   };

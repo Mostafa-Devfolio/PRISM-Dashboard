@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2, Package, Tag, Layers, Settings2, Code, UploadCloud, Image as ImageIcon, Briefcase, Store } from 'lucide-react';
@@ -174,7 +176,7 @@ export function ProductModal({ isOpen, onClose, product }: ProductModalProps) {
       onClose();
     } catch (error: any) {
       console.error('Failed to save product:', error);
-      alert(error.message || error?.data?.error?.message || 'Failed to save product.');
+      showAlert(error.message || error?.data?.error?.message || 'Failed to save product.');
     }
   };
 

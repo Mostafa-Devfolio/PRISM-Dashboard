@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { Building2, Eye, MapPin, CheckCircle2, XCircle, Loader2, AlertCircle, Plus, Trash2 } from 'lucide-react';
@@ -35,11 +37,11 @@ export default function PropertiesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
+    if (await showConfirm('Are you sure you want to delete this property? This action cannot be undone.')) {
       try {
         await deleteProperty(id).unwrap();
       } catch (err: any) {
-        alert(err.message || 'Failed to delete property.');
+        showAlert(err.message || 'Failed to delete property.');
       }
     }
   };

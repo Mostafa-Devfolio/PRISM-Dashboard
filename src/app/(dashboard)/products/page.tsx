@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { Plus, Edit2, Trash2, Loader2, AlertCircle } from 'lucide-react';
@@ -27,12 +29,12 @@ export default function ProductsPage() {
   };
 
   const handleDelete = async (documentId: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
+    if (await showConfirm('Are you sure you want to delete this product?')) {
       try {
         await deleteProduct(documentId).unwrap();
       } catch (err) {
         console.error('Failed to delete product:', err);
-        alert('Failed to delete product.');
+        showAlert('Failed to delete product.');
       }
     }
   };

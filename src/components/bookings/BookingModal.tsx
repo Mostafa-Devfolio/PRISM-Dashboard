@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { X, Loader2, Calendar, User, Home, DollarSign, Plug, Settings, FileText, Plus, Trash2 } from 'lucide-react';
@@ -114,11 +116,11 @@ export function BookingModal({ isOpen, onClose, booking }: BookingModalProps) {
   const onSubmit = async (data: any) => {
     try {
       if (!data.checkInDate || !data.checkOutDate) {
-        alert('Check-in and Check-out dates are required.');
+        showAlert('Check-in and Check-out dates are required.');
         return;
       }
       if (!data.totalAmount) {
-        alert('Total Amount is required.');
+        showAlert('Total Amount is required.');
         return;
       }
 
@@ -173,7 +175,7 @@ export function BookingModal({ isOpen, onClose, booking }: BookingModalProps) {
       onClose();
     } catch (error: any) {
       console.error('Failed to save booking:', error);
-      alert(error.message || error?.data?.error?.message || 'Failed to save booking.');
+      showAlert(error.message || error?.data?.error?.message || 'Failed to save booking.');
     }
   };
 

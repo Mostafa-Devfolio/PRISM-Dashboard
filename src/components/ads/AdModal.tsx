@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2 } from 'lucide-react';
@@ -37,7 +39,7 @@ export function AdModal({ isOpen, onClose, item, type }: AdModalProps) {
       onClose();
     } catch (error) {
       console.error('Failed to update status:', error);
-      alert('Failed to update status.');
+      showAlert('Failed to update status.');
     }
   };
 

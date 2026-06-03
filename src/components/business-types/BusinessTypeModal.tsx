@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -92,7 +94,7 @@ export function BusinessTypeModal({ businessType, onClose }: { businessType?: an
       onClose();
     } catch (error: any) {
       console.error('Failed to save business type', error);
-      alert(error.message || error?.data?.error?.message || 'Failed to save module. Please try again.');
+      showAlert(error.message || error?.data?.error?.message || 'Failed to save module. Please try again.');
     }
   };
 

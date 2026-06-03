@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2, MapPin, Package, Users, Settings, DollarSign, Text } from 'lucide-react';
@@ -88,7 +90,7 @@ export function ParcelModal({ isOpen, onClose, parcel }: ParcelModalProps) {
   const onSubmit = async (data: any) => {
     try {
       if (!pickupLocation || !dropoffLocation) {
-        alert('Please set both Pickup and Dropoff locations on the map.');
+        showAlert('Please set both Pickup and Dropoff locations on the map.');
         return;
       }
 
@@ -133,7 +135,7 @@ export function ParcelModal({ isOpen, onClose, parcel }: ParcelModalProps) {
       onClose();
     } catch (error: any) {
       console.error('Failed to save parcel:', error);
-      alert(error.message || error?.data?.error?.message || 'Failed to save parcel.');
+      showAlert(error.message || error?.data?.error?.message || 'Failed to save parcel.');
     }
   };
 

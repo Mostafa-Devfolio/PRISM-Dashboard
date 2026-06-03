@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -63,7 +65,7 @@ export function BusTripModal({ isOpen, onClose, trip }: BusTripModalProps) {
       onClose();
     } catch (error) {
       console.error('Failed to save trip:', error);
-      alert('Failed to save trip.');
+      showAlert('Failed to save trip.');
     }
   };
 

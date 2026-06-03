@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2, Package } from 'lucide-react';
@@ -64,7 +66,7 @@ export function ParcelTypeModal({ isOpen, onClose, parcelType }: ParcelTypeModal
       onClose();
     } catch (error: any) {
       console.error('Failed to save parcel type:', error);
-      alert(error.message || 'Failed to save parcel type details.');
+      showAlert(error.message || 'Failed to save parcel type details.');
     }
   };
 

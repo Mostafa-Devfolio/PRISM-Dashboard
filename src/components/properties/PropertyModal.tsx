@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2, Building, UserCheck, ShieldAlert, MapPin, Settings2, Code, FileText, Layers, Plus, Edit2, Trash2 } from 'lucide-react';
@@ -152,7 +154,7 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
       onClose();
     } catch (error: any) {
       console.error('Failed to save property:', error);
-      alert(error.message || 'Failed to save property.');
+      showAlert(error.message || 'Failed to save property.');
     }
   };
 
@@ -308,7 +310,7 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
                   type="button"
                   onClick={() => {
                     if (!propertyId) {
-                      alert('Please save the property first before adding rooms.');
+                      showAlert('Please save the property first before adding rooms.');
                       return;
                     }
                     setSelectedRoom(null);
@@ -352,9 +354,9 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button type="button" onClick={async () => {
-                          if (confirm('Delete this room?')) {
+                          if (await showConfirm('Delete this room?')) {
                             try { await deleteRoom(room.documentId || room.id).unwrap(); }
-                            catch (e: any) { alert('Failed to delete room'); }
+                            catch (e: any) { showAlert('Failed to delete room'); }
                           }
                         }} className="p-2 text-red-500 hover:bg-red-500/10 rounded-md transition-colors">
                           <Trash2 className="w-4 h-4" />

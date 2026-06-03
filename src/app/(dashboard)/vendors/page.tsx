@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { CheckCircle, XCircle, Eye, Loader2, AlertCircle, Plus, Edit2, Trash2 } from 'lucide-react';
@@ -25,24 +27,24 @@ export default function VendorsPage() {
   const meta = response?.meta?.pagination;
 
   const handleApprove = async (vendor: any) => {
-    if (confirm(`Are you sure you want to approve ${vendor.name}?`)) {
+    if (await showConfirm(`Are you sure you want to approve ${vendor.name}?`)) {
       try {
         await updateVendor({ documentId: vendor.documentId || vendor.id, isActive: true }).unwrap();
-        alert('Vendor approved successfully!');
+        showAlert('Vendor approved successfully!');
       } catch (err) {
         console.error('Failed to approve vendor:', err);
-        alert('Failed to approve vendor.');
+        showAlert('Failed to approve vendor.');
       }
     }
   };
 
   const handleReject = async (vendor: any) => {
-    if (confirm(`Are you sure you want to reject and delete ${vendor.name}?`)) {
+    if (await showConfirm(`Are you sure you want to reject and delete ${vendor.name}?`)) {
       try {
         await deleteVendor(vendor.documentId || vendor.id).unwrap();
       } catch (err) {
         console.error('Failed to reject vendor:', err);
-        alert('Failed to reject vendor.');
+        showAlert('Failed to reject vendor.');
       }
     }
   };

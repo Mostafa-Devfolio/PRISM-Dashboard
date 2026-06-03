@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import React, { useEffect } from 'react';
 import { X, DollarSign, Loader2, Save } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -50,7 +52,7 @@ export function VehicleFareModal({ isOpen, onClose, pricingConfig }: VehicleFare
       onClose();
     } catch (err) {
       console.error('Failed to update pricing config:', err);
-      alert('Failed to update pricing config');
+      showAlert('Failed to update pricing config');
     }
   };
 

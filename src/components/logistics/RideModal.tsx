@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2, Navigation, Users, Settings, DollarSign } from 'lucide-react';
@@ -81,7 +83,7 @@ export function RideModal({ isOpen, onClose, ride }: RideModalProps) {
   const onSubmit = async (data: any) => {
     try {
       if (!pickup || !destination) {
-        alert('Please set both Pickup and Destination on the map.');
+        showAlert('Please set both Pickup and Destination on the map.');
         return;
       }
 
@@ -117,7 +119,7 @@ export function RideModal({ isOpen, onClose, ride }: RideModalProps) {
       onClose();
     } catch (error: any) {
       console.error('Failed to save ride:', error);
-      alert(error.message || error?.data?.error?.message || 'Failed to save ride.');
+      showAlert(error.message || error?.data?.error?.message || 'Failed to save ride.');
     }
   };
 

@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState, useEffect } from 'react';
 import { Save, Globe, Shield, Coins, Gift, Loader2, Edit2, Plus, Trash2, CheckCircle2, XCircle, Map } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -275,7 +277,7 @@ function CurrenciesSettings() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this currency?')) {
+    if (await showConfirm('Are you sure you want to delete this currency?')) {
       try {
         await deleteCurrency(id).unwrap();
         toast.success('Currency deleted');

@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2, Grid, Layers, Briefcase } from 'lucide-react';
@@ -66,7 +68,7 @@ export function CategoryModal({ isOpen, onClose, category }: CategoryModalProps)
       onClose();
     } catch (error: any) {
       console.error('Failed to save category:', error);
-      alert(error.message || 'Failed to save category.');
+      showAlert(error.message || 'Failed to save category.');
     }
   };
 

@@ -1,4 +1,6 @@
 'use client';
+import { showAlert, showConfirm } from '@/lib/custom-alerts';
+
 import { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { CheckCircle2, MapPin, Loader2, AlertCircle, Plus, Edit2, Trash2, Clock, Car, Package, DollarSign } from 'lucide-react';
@@ -43,28 +45,28 @@ export default function LogisticsPage() {
   };
 
   const handleDeleteRide = async (id: string) => {
-    if (confirm('Are you sure you want to delete this ride?')) {
+    if (await showConfirm('Are you sure you want to delete this ride?')) {
       try {
         await deleteRide(id).unwrap();
       } catch (err) {
-        alert('Failed to delete ride');
+        showAlert('Failed to delete ride');
       }
     }
   };
 
   const handleDeleteParcel = async (id: string) => {
-    if (confirm('Are you sure you want to delete this parcel?')) {
+    if (await showConfirm('Are you sure you want to delete this parcel?')) {
       try {
         await deleteParcel(id).unwrap();
       } catch (err) {
-        alert('Failed to delete parcel');
+        showAlert('Failed to delete parcel');
       }
     }
   };
 
   const handleDeleteParcelType = async (id: string) => {
-    if (confirm('Are you sure you want to delete this parcel type?')) {
-      try { await deleteParcelType(id).unwrap(); } catch (err) { alert('Failed to delete parcel type'); }
+    if (await showConfirm('Are you sure you want to delete this parcel type?')) {
+      try { await deleteParcelType(id).unwrap(); } catch (err) { showAlert('Failed to delete parcel type'); }
     }
   };
 
