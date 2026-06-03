@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Loader2, Building, UserCheck, ShieldAlert, MapPin, Settings2, Code, FileText, Layers, Plus, Edit2, Trash2 } from 'lucide-react';
-import { useUpdatePropertyMutation, useCreatePropertyMutation, useGetUsersQuery, useGetRoomsQuery, useDeleteRoomMutation } from '@/store/api';
+import { useUpdatePropertyMutation, useCreatePropertyMutation, useGetUsersQuery, useGetRoomTypesQuery, useDeleteRoomTypeMutation } from '@/store/api';
 import { cn } from '@/lib/utils';
 import { RoomModal } from './RoomModal';
 
@@ -28,8 +28,8 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
   const { data: usersData, isLoading: isLoadingUsers } = useGetUsersQuery({});
   
   const propertyId = property?.documentId || property?.id;
-  const { data: roomsRes, isLoading: isLoadingRooms } = useGetRoomsQuery({ propertyId }, { skip: !propertyId });
-  const [deleteRoom] = useDeleteRoomMutation();
+  const { data: roomsRes, isLoading: isLoadingRooms } = useGetRoomTypesQuery({ propertyId }, { skip: !propertyId });
+  const [deleteRoom] = useDeleteRoomTypeMutation();
   const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<any>(null);
 
@@ -341,10 +341,10 @@ export function PropertyModal({ isOpen, onClose, property }: PropertyModalProps)
                   {rooms.map((room: any) => (
                     <div key={room.id} className="flex items-center justify-between p-4 border border-border bg-card rounded-lg hover:border-primary/50 transition-colors">
                       <div>
-                        <h4 className="font-bold text-foreground">{room.name || room.roomType}</h4>
+                        <h4 className="font-bold text-foreground">{room.name}</h4>
                         <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
-                          <span>Capacity: {room.capacity} adults</span>
-                          <span>Base Price: ${room.basePrice}/night</span>
+                          <span>Capacity: {room.maxAdults} adults</span>
+                          <span>Base Price: ${room.basePricePerNight}/night</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">

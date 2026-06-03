@@ -454,9 +454,9 @@ export const api = createApi({
       }),
       invalidatesTags: ['Currency'],
     }),
-    getRooms: builder.query({
+    getRoomTypes: builder.query({
       query: (params) => {
-        let url = '/rooms?populate=*';
+        let url = '/room-types?populate=*';
         if (params?.propertyId) {
           url += `&filters[property][id][$eq]=${params.propertyId}`;
         }
@@ -464,46 +464,38 @@ export const api = createApi({
       },
       providesTags: ['Room'],
     }),
-    createRoom: builder.mutation({
+    createRoomType: builder.mutation({
       query: (data) => ({
-        url: '/rooms',
+        url: '/room-types',
         method: 'POST',
         body: { data },
       }),
       invalidatesTags: ['Room'],
     }),
-    updateRoom: builder.mutation({
+    updateRoomType: builder.mutation({
       query: ({ documentId, ...patch }) => ({
-        url: `/rooms/${documentId}`,
+        url: `/room-types/${documentId}`,
         method: 'PUT',
         body: { data: patch },
       }),
       invalidatesTags: ['Room'],
     }),
-    deleteRoom: builder.mutation({
+    deleteRoomType: builder.mutation({
       query: (documentId) => ({
-        url: `/rooms/${documentId}`,
+        url: `/room-types/${documentId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Room'],
     }),
-    getVehicleTypes: builder.query({
-      query: () => '/vehicle-types?populate=*',
+    getPricingConfig: builder.query({
+      query: () => '/pricing-config',
       providesTags: ['VehicleType'],
     }),
-    createVehicleType: builder.mutation({
+    updatePricingConfig: builder.mutation({
       query: (data) => ({
-        url: '/vehicle-types',
-        method: 'POST',
-        body: { data },
-      }),
-      invalidatesTags: ['VehicleType'],
-    }),
-    updateVehicleType: builder.mutation({
-      query: ({ documentId, ...patch }) => ({
-        url: `/vehicle-types/${documentId}`,
+        url: '/pricing-config',
         method: 'PUT',
-        body: { data: patch },
+        body: { data },
       }),
       invalidatesTags: ['VehicleType'],
     }),
@@ -612,14 +604,12 @@ export const {
   useCreateCurrencyMutation,
   useUpdateCurrencyMutation,
   useDeleteCurrencyMutation,
-  useGetRoomsQuery,
-  useCreateRoomMutation,
-  useUpdateRoomMutation,
-  useDeleteRoomMutation,
-  useGetVehicleTypesQuery,
-  useCreateVehicleTypeMutation,
-  useUpdateVehicleTypeMutation,
-  useDeleteVehicleTypeMutation,
+  useGetRoomTypesQuery,
+  useCreateRoomTypeMutation,
+  useUpdateRoomTypeMutation,
+  useDeleteRoomTypeMutation,
+  useGetPricingConfigQuery,
+  useUpdatePricingConfigMutation,
   useGetParcelTypesQuery,
   useCreateParcelTypeMutation,
   useUpdateParcelTypeMutation,
